@@ -1,16 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const AuxCard: React.FC<{ label: string; value: string; dot?: boolean }> = ({ label, value, dot }) => {
+    const [hovered, setHovered] = useState(false);
+    return (
+        <div
+            className="border border-primary/20 bg-primary/5 p-4 relative"
+            style={{
+                transform: hovered ? 'scale(1.06) translateY(-8px)' : 'scale(1) translateY(0)',
+                boxShadow: hovered
+                    ? '0 0 18px 4px rgba(0,229,255,0.35), 0 8px 24px rgba(0,0,0,0.5)'
+                    : '0 0 0px 0px rgba(0,229,255,0)',
+                borderColor: hovered ? 'rgba(0,229,255,0.55)' : 'rgba(0,229,255,0.2)',
+                background: hovered ? 'rgba(0,229,255,0.1)' : 'rgba(0,229,255,0.05)',
+                transition: 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease',
+                cursor: 'default',
+                zIndex: hovered ? 5 : 'auto',
+                position: 'relative',
+            }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <div className="text-xs font-mono text-hud-dim mb-2">{label}</div>
+            <div
+                className="text-primary font-bold tracking-widest"
+                style={{
+                    textShadow: hovered ? '0 0 10px rgba(0,229,255,0.9), 0 0 20px rgba(0,229,255,0.5)' : 'none',
+                    transition: 'text-shadow 0.28s ease',
+                }}
+            >
+                {value}
+            </div>
+            {dot && (
+                <div className="absolute top-0 right-0 p-1">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                </div>
+            )}
+        </div>
+    );
+};
 import SkillGauge from '../components/SkillGauge';
 import profileImg from '../assets/IMG_20240218_091226.jpg';
 import { resumeData } from "../data/resume";
+
+const NameHeading: React.FC = () => {
+    const [hovered, setHovered] = useState(false);
+    return (
+        <h1
+            className="text-5xl md:text-7xl font-black tracking-tighter glow-text uppercase mb-4"
+            style={{
+                transition: 'text-shadow 0.3s ease, transform 0.3s ease, filter 0.3s ease',
+                transform: hovered
+                    ? 'translateY(-4px) perspective(400px) rotateX(4deg)'
+                    : 'translateY(0px)',
+                textShadow: hovered
+                    ? '1px 1px 0 #007a99, 2px 2px 0 #006882, 3px 3px 0 #00566b, 4px 4px 0 #004454, 5px 5px 0 #003240, 6px 6px 0 #00202a, 0 0 30px rgba(0,229,255,0.9), 0 0 60px rgba(0,229,255,0.5), 0 14px 40px rgba(0,0,0,0.6)'
+                    : '0 0 20px rgba(0,229,255,0.4)',
+                filter: hovered ? 'brightness(1.2)' : 'brightness(1)',
+                cursor: 'default',
+                display: 'inline-block',
+            }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            Krishna Prasad Vilasan
+        </h1>
+    );
+};
 
 const IdentityTerminal: React.FC = () => {
     return (
         <div id="home" className="max-w-7xl mx-auto px-6 pb-20">
             <header className="min-h-[85vh] flex flex-col justify-center items-center text-center mb-60 scroll-mt-20">
                 <div className="inline-block relative">
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter glow-text uppercase mb-4">
-                        Krishna Prasad Vilasan
-                    </h1>
+                    <NameHeading />
                     <div className="h-1 w-full bg-primary absolute -bottom-2 left-0 scale-x-75 opacity-50 shadow-[0_0_15px_rgba(0,229,255,0.8)]"></div>
                 </div>
                 <div>
@@ -43,33 +105,12 @@ const IdentityTerminal: React.FC = () => {
                     <span className="h-px flex-grow bg-primary/10"></span>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4">
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">FRONTEND_LIB</div>
-                        <div className="text-primary font-bold tracking-widest">HTML5 / CSS3</div>
-                        <div className="absolute top-0 right-0 p-1">
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
-                        </div>
-                    </div>
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">UI_FRAMEWORK</div>
-                        <div className="text-primary font-bold tracking-widest">BOOTSTRAP</div>
-                    </div>
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">SECURITY_PROTOCOL</div>
-                        <div className="text-primary font-bold tracking-widest">JWT AUTH</div>
-                    </div>
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">TESTING_UNIT</div>
-                        <div className="text-primary font-bold tracking-widest">POSTMAN</div>
-                    </div>
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">VERSION_CONTROL</div>
-                        <div className="text-primary font-bold tracking-widest">GIT / GITHUB</div>
-                    </div>
-                    <div className="border border-primary/20 bg-primary/5 p-4 relative group hover:bg-primary/10 transition-colors">
-                        <div className="text-xs font-mono text-hud-dim mb-2">LANG_CORE</div>
-                        <div className="text-primary font-bold tracking-widest">C++ / PYTHON</div>
-                    </div>
+                    <AuxCard label="FRONTEND_LIB" value="HTML5 / CSS3" dot />
+                    <AuxCard label="UI_FRAMEWORK" value="BOOTSTRAP" />
+                    <AuxCard label="SECURITY_PROTOCOL" value="JWT AUTH" />
+                    <AuxCard label="TESTING_UNIT" value="POSTMAN" />
+                    <AuxCard label="VERSION_CONTROL" value="GIT / GITHUB" />
+                    <AuxCard label="LANG_CORE" value="C++ / PYTHON" />
                 </div>
             </section>
 

@@ -105,10 +105,7 @@ html {
   pointer-events: none;
 }
 
-.gauge-ring {
-  stroke-dasharray: 251.2;
-  stroke-dashoffset: calc(251.2 - (251.2 * var(--percent)) / 100);
-}
+/* gauge-ring animation is handled in SkillGauge.tsx via requestAnimationFrame */
 
 @layer base {
   .theme-green {
